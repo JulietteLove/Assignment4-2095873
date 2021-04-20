@@ -18,6 +18,7 @@ public class CombatSystem : MonoBehaviour
     public GameObject MeleeAttackButton;
     public GameObject FireballAttackButton;
     public GameObject HealButton;
+    public GameObject DefenseButton;
 
     public GameObject enemyMissExplanation;
     public bool FirstTimeEnemyMiss = true;
@@ -29,6 +30,9 @@ public class CombatSystem : MonoBehaviour
     public Text PlayerDamage;
 
     public float fillAmountHealth;
+    public float fillAmountFireball;
+
+    public Image FireballCharge;
 
     //public bool hasUsed = false;
 
@@ -48,6 +52,8 @@ public class CombatSystem : MonoBehaviour
         {
             RollButton.SetActive(true);
             //PlayerRollDice();
+            fillAmountFireball = (attackScript.BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
+            FireballCharge.fillAmount = fillAmountFireball / 1;
         }
         else
         {
@@ -60,8 +66,10 @@ public class CombatSystem : MonoBehaviour
 
             Debug.Log("I am in combat");
             EnemyChange enemyChange = GameObject.FindWithTag("EnemyChange").GetComponent<EnemyChange>();
-   
- 
+
+            //fillAmountFireball = (attackScript.BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
+            //FireballCharge.fillAmount = fillAmountFireball / 1;
+
             if (FireballAttackButton != null)
             {
                 FireballAttackButton.SetActive(true);
@@ -72,6 +80,11 @@ public class CombatSystem : MonoBehaviour
                 HealButton.SetActive(true);
             }    
             MeleeAttackButton.SetActive(true);
+
+            if (DefenseButton != null && player.defenceNumber < 3)
+            {
+                DefenseButton.SetActive(true);
+            }
         }
 
         else
@@ -84,7 +97,11 @@ public class CombatSystem : MonoBehaviour
             if (FireballAttackButton != null)
             {
                 FireballAttackButton.SetActive(false);
-                Debug.Log("This code has not run");
+            }
+
+            if (DefenseButton != null)
+            {
+                DefenseButton.SetActive(false);
             }
 
             MeleeAttackButton.SetActive(false);
@@ -94,6 +111,8 @@ public class CombatSystem : MonoBehaviour
         {
             Debug.Log("Enemy is in combat");
             Invoke("EnemyRoll", 2f);
+            
+
         }
 
         if (Input.GetKey("escape"))
@@ -157,17 +176,23 @@ public class CombatSystem : MonoBehaviour
                 }
             }
 
-            EnemyCanRoll = false;
+            AttackScript attackScript = GameObject.FindWithTag("CombatSystem").GetComponent<AttackScript>();
+
+
+                EnemyCanRoll = false;
         }
     }
 
     void PlayerTurn()
     {
         DiceScript diceScript = GameObject.FindWithTag("Dice").GetComponent<DiceScript>();
+        AttackScript attackScript = GameObject.FindWithTag("CombatSystem").GetComponent<AttackScript>();
 
         state = CombatState.PLAYERROLL;
         diceScript.ConsoleText.text = "Your turn";
         CanRoll = true;
+
+
     }
 
     //void PlayerRollDice()
