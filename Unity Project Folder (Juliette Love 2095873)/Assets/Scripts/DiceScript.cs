@@ -20,8 +20,6 @@ public class DiceScript : MonoBehaviour
     public GameObject playerMissExplanation;
     public bool FirstTimePlayerMiss = true;
 
-    //public bool PlayerMiss = false;
-
     public void ButtonClicked() //CODE DEALING WITH PLAYER ROLL
     {
         ButtonPressed = true;
@@ -33,11 +31,9 @@ public class DiceScript : MonoBehaviour
             combatSystem.CanRoll = false;
             NumberRolled = Random.Range(1, 6);
 
-            //Calculate on final rolled value. 
-
             FinalNumberRolled = NumberRolled + ChanceToHit;
 
-            if (FinalNumberRolled >= 6) //To make sure it does nto show a larger value. 
+            if (FinalNumberRolled >= 6) //To make sure it does not show a larger value. 
             {
                 FinalNumberRolled = 6;
             }
@@ -54,8 +50,7 @@ public class DiceScript : MonoBehaviour
                     ChanceToHit += 1;
                 }
 
-                //PlayerMiss = true;
-                Invoke("EnemyTurn", 2f); //This is a problem. 2 seconds where button can be used. 
+                Invoke("EnemyTurn", 2f);
                 combatSystem.PlayerMissText.SetActive(true);
                 Invoke("FeedbackTextDisappear", 2f);
 
@@ -65,14 +60,13 @@ public class DiceScript : MonoBehaviour
                     Invoke("MissTextDisappear", 3f);
                     FirstTimePlayerMiss = false;
                 }
-                
 
                 AttackScript attackScript = GameObject.FindWithTag("CombatSystem").GetComponent<AttackScript>();
                 attackScript.PlayerCanAttack = true;
                 combatSystem.CanRoll = false;
             }
             
-            if (enemy.defenceNumber < FinalNumberRolled) //Option to deal damage to enemy. Attack buttons appear. 
+            if (enemy.defenceNumber < FinalNumberRolled) 
             {
                 if (ChanceToHit == 1)
                 {
@@ -85,11 +79,8 @@ public class DiceScript : MonoBehaviour
                 AttackScript attackScript = GameObject.FindWithTag("CombatSystem").GetComponent<AttackScript>();
                 attackScript.PlayerCanAttack = true;
 
-
                 combatSystem.fillAmountFireball = (attackScript.BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
                 combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
-
-
             }
         }
     }
@@ -103,17 +94,17 @@ public class DiceScript : MonoBehaviour
         ConsoleText.text = "Enemy Turn";
     }
 
-    public void ReplayLvl1() //Replay scene button
+    public void ReplayLvl1()
     {
         SceneManager.LoadScene("Level1");
     }
 
-    public void ReplayLvl2() //Replay scene button
+    public void ReplayLvl2()
     {
         SceneManager.LoadScene("Level2");
     }
 
-    public void ReplayLvl3() //Replay scene button
+    public void ReplayLvl3()
     {
         SceneManager.LoadScene("Level3");
     }

@@ -70,13 +70,9 @@ public class AttackScript : MonoBehaviour
         CombatSystem combatSystem = GameObject.FindWithTag("CombatSystem").GetComponent<CombatSystem>();
         combatSystem.CanRoll = false;
 
-        if (BurnChance < 4) //Update Fireball UI
+        if (BurnChance < 4)
         {
-            //CombatSystem combatSystem = GameObject.FindWithTag("CombatSystem").GetComponent<CombatSystem>();
-
             BurnChance += 1;
-            //combatSystem.fillAmountFireball = (attackScript.BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
-            //combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
         }
     }
 
@@ -88,13 +84,6 @@ public class AttackScript : MonoBehaviour
         {
             Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
             DiceScript diceScript = GameObject.FindWithTag("Dice").GetComponent<DiceScript>();
-
-            //player.currentHealth = 10f;
-            //playerfillAmountHealth = player.currentHealth / player.maxHealth;
-            //diceScript.playerHealth.fillAmount = player.currentHealth / 1;
-
-            PlayerHealGlow.SetActive(true);
-            Invoke("PlayerGlowDisappear", 0.5f);
 
             if (0 <= player.defenceNumber)
             {
@@ -108,26 +97,15 @@ public class AttackScript : MonoBehaviour
 
             Invoke("EnemyTurnChange", 2f);
             PlayerCanAttack = false;
+        }
 
-
-    }
-
-
-
-    CombatSystem combatSystem = GameObject.FindWithTag("CombatSystem").GetComponent<CombatSystem>();
+        CombatSystem combatSystem = GameObject.FindWithTag("CombatSystem").GetComponent<CombatSystem>();
         combatSystem.CanRoll = false;
         
         if (BurnChance < 4) //Update Fireball UI
         {
-            
-
             BurnChance += 1;
-            //combatSystem.fillAmountFireball = (BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
-            //combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
-        }
-        ////Update this on UI image fillamount. 
-        //combatSystem.fillAmountFireball = (BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
-        //combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
+        }       
     }
 
     public void FireballButton()
@@ -136,11 +114,8 @@ public class AttackScript : MonoBehaviour
 
         if (BurnChance < 4)//Changes player burn UI.
         {
-            //BurnChance += 1;
-            //Update this on UI image fillamount. 
             combatSystem.fillAmountFireball = (BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
             combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
-            Debug.Log("This code has run once?");
         }
 
         EnemyChange enemyChange = GameObject.FindWithTag("EnemyChange").GetComponent<EnemyChange>();
@@ -152,19 +127,16 @@ public class AttackScript : MonoBehaviour
            
             FireballBurn = Random.Range(1, 6);
 
-            if (FireballBurn >= BurnChance /*This needs to ba a value called BurnChance*/ && PlayerCanAttack == true) //Player is burned
+            if (FireballBurn >= BurnChance && PlayerCanAttack == true) //Player is burned
             {
-                //Need to change player's chance of being burned. 
                 EnemyHealthGlow.SetActive(true);
                 Invoke("EnemyGlowDisappear", 0.5f);
 
-                EnemyDamage.text = "4";
+                EnemyDamage.text = "1";
                 Invoke("DamageDisappear", 2f);
 
                 ScreenshakeController screenShakeController = GameObject.FindWithTag("MainCamera").GetComponent<ScreenshakeController>();
                 StartCoroutine(screenShakeController.CameraShake(0.15f, 0.1f));
-
-                Debug.Log("BURN TEXT HAS RUN");
 
                 Player player = GameObject.FindWithTag("Player").GetComponent<Player>();
                 DiceScript diceScript = GameObject.FindWithTag("Dice").GetComponent<DiceScript>();
@@ -200,7 +172,6 @@ public class AttackScript : MonoBehaviour
 
                 PlayerCanAttack = false;
                 BurnChance = 2; //After turn is finished and this has been used, BurnChance is reset. 
-                Debug.Log("Burn chance reset");
             }
 
             if (FireballBurn < BurnChance && PlayerCanAttack == true) //Player does not get burned
@@ -228,17 +199,10 @@ public class AttackScript : MonoBehaviour
                 BurnChance = 2; //After turn is finished and this has been used, BurnChance is reset. 
                 combatSystem.fillAmountFireball = (BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
                 combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
-                Debug.Log("Burn chance reset");
                 PlayerCanAttack = false;
             }
-
-            
-            
-
             Invoke("EnemyTurnChange", 3f);
         }
-
-        
 
         PlayerCanAttack = false;
         
@@ -250,7 +214,6 @@ public class AttackScript : MonoBehaviour
         CombatSystem combatSystem = GameObject.FindWithTag("CombatSystem").GetComponent<CombatSystem>();
 
         combatSystem.state = CombatState.ENEMYTURN;
-        //ConsoleText.text = "Enemy Turn";
         combatSystem.EnemyCanRoll = true;
     }
 
@@ -265,7 +228,6 @@ public class AttackScript : MonoBehaviour
         fillAmountHealth = enemy.currentHealth / enemy.maxHealth;
         enemyHealth.fillAmount = fillAmountHealth / 1;
 
-
         EnemyHealthGlow.SetActive(true);
         Invoke("EnemyGlowDisappear", 0.5f);
 
@@ -275,7 +237,7 @@ public class AttackScript : MonoBehaviour
         ScreenshakeController screenShakeController = GameObject.FindWithTag("MainCamera").GetComponent<ScreenshakeController>();
         StartCoroutine(screenShakeController.CameraShake(0.1f, 0.05f));
 
-        if (enemy.currentHealth < 1f /*|| enemy.currentHealth > 1f*/) //Player Wins
+        if (enemy.currentHealth < 1f) //Player Wins
         {
             Debug.Log("Has Won");
             WinUI.SetActive(true);
@@ -284,21 +246,12 @@ public class AttackScript : MonoBehaviour
         CombatSystem combatSystem = GameObject.FindWithTag("CombatSystem").GetComponent<CombatSystem>();
 
         Invoke("EnemyTurnChange", 0.5f);
-        //ConsoleText.text = "Enemy Turn";
         combatSystem.EnemyCanRoll = true;
         combatSystem.CanRoll = false;
 
-        ////Update this on UI image fillamount. 
-        //combatSystem.fillAmountFireball = (BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
-        //combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
-        
-        if (BurnChance < 4) //Update Fireball UI
+        if (BurnChance < 4)
         {
-            
-
             BurnChance += 1;
-            //combatSystem.fillAmountFireball = (BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
-            //combatSystem.FireballCharge.fillAmount = combatSystem.fillAmountFireball / 1;
         }
     }
 

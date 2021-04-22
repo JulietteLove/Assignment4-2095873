@@ -49,25 +49,21 @@ public class AttackCommunication : MonoBehaviour
             FireballDamageText.SetActive(true);
             FireballDamageText2.SetActive(true);
             FireballPercentageText.SetActive(true);
-            Debug.Log("Over Fire UI");
         }
 
         if (gameObject.name == "MeleeUI")
         {
             MeleeDamageText.SetActive(true);
-            Debug.Log("Over Melee UI");
         }
 
         if (gameObject.name == "HealUI")
         {
             HealText.SetActive(true);
-            Debug.Log("Over Heal UI");
         }
 
         if (gameObject.name == "DefendUI")
         {
             DefendText.SetActive(true);
-            Debug.Log("Over Defend UI");
         }
     }
 

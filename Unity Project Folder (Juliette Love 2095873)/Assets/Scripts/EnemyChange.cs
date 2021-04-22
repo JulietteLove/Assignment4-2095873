@@ -18,9 +18,6 @@ public class EnemyChange : MonoBehaviour
         {
             IsLevel1 = true;
 
-            //Change enemy stats
-
-
             IsLevel2 = false;
             IsLevel3 = false;
         }
@@ -29,9 +26,6 @@ public class EnemyChange : MonoBehaviour
         {
             IsLevel2 = true;
 
-            //Change enemy stats
-
-
             IsLevel1 = false;
             IsLevel3 = false;
         }
@@ -39,9 +33,6 @@ public class EnemyChange : MonoBehaviour
         if (sceneName == "Level3")
         {
             IsLevel3 = true;
-
-            //Change enemy stats
-
 
             IsLevel1 = false;
             IsLevel2 = false;

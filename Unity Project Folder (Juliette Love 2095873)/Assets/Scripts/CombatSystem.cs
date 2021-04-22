@@ -34,8 +34,6 @@ public class CombatSystem : MonoBehaviour
 
     public Image FireballCharge;
 
-    //public bool hasUsed = false;
-
     void Start()
     {
         state = CombatState.PLAYERROLL;
@@ -51,7 +49,6 @@ public class CombatSystem : MonoBehaviour
         if (state == CombatState.PLAYERROLL)
         {
             RollButton.SetActive(true);
-            //PlayerRollDice();
             fillAmountFireball = (attackScript.BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
             FireballCharge.fillAmount = fillAmountFireball / 1;
         }
@@ -64,12 +61,8 @@ public class CombatSystem : MonoBehaviour
         {
             EnemyCanRoll = false;
 
-            Debug.Log("I am in combat");
             EnemyChange enemyChange = GameObject.FindWithTag("EnemyChange").GetComponent<EnemyChange>();
-
-            //fillAmountFireball = (attackScript.BurnChance - 1) / 3; //Because the BurnChance is a value between 2 and 4, I am subtracting 1 to make it out of 3.
-            //FireballCharge.fillAmount = fillAmountFireball / 1;
-
+               
             if (FireballAttackButton != null)
             {
                 FireballAttackButton.SetActive(true);
@@ -109,10 +102,7 @@ public class CombatSystem : MonoBehaviour
 
         if (state == CombatState.ENEMYTURN)
         {
-            Debug.Log("Enemy is in combat");
             Invoke("EnemyRoll", 2f);
-            
-
         }
 
         if (Input.GetKey("escape"))
@@ -140,7 +130,6 @@ public class CombatSystem : MonoBehaviour
                 EnemyMissText.SetActive(true);
                 Invoke("FeedbackTextDisappear", 2f);
                 Invoke("PlayerTurn", 2f);
-                Debug.Log("Enemy has missed");
 
                 if(FirstTimeEnemyMiss == true && enemyMissExplanation != null)
                 {
@@ -148,7 +137,6 @@ public class CombatSystem : MonoBehaviour
                     Invoke("MissTextDisappear", 3f);
                     FirstTimeEnemyMiss = false;
                 }
-
             }
 
             if (player.defenceNumber < diceScript.EnemyNumberRolled) //Deals damage to player.
@@ -167,9 +155,7 @@ public class CombatSystem : MonoBehaviour
 
                 StartCoroutine(screenShakeController.CameraShake(0.1f, 0.05f)); //Screenshake
 
-                Debug.Log("Enemy has hit");
-
-                if (player.currentHealth < 1f/* || player.currentHealth > 1f*/) //Player Loses
+                if (player.currentHealth < 1f) //Player Loses
                 {
                     Debug.Log("Has Lost");
                     LoseUI.SetActive(true);
@@ -178,8 +164,7 @@ public class CombatSystem : MonoBehaviour
 
             AttackScript attackScript = GameObject.FindWithTag("CombatSystem").GetComponent<AttackScript>();
 
-
-                EnemyCanRoll = false;
+            EnemyCanRoll = false;
         }
     }
 
@@ -191,14 +176,7 @@ public class CombatSystem : MonoBehaviour
         state = CombatState.PLAYERROLL;
         diceScript.ConsoleText.text = "Your turn";
         CanRoll = true;
-
-
     }
-
-    //void PlayerRollDice()
-    //{
-    //    CanRoll = true;
-    //}
 
     void MissTextDisappear()
     {

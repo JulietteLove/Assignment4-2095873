@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    public string playerName;
+    public string enemyName;
     public float attackPower;
     public int defenceNumber;
     public float currentHealth;
-    public int maxHealth;
-
+    public float maxHealth;
 }
